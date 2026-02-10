@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const path = require("path");
 require("dotenv").config();
 
 const { pool, initDB, getUniqIdValue } = require("./db");
@@ -19,9 +18,6 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
-
-// NOTE: Serve static React build files in production
-app.use(express.static(path.join(__dirname, "../client/build")));
 
 // ===================== AUTH ROUTES =====================
 
@@ -244,11 +240,6 @@ app.post("/api/users/delete-unverified", authMiddleware, async (req, res) => {
     console.error("Delete unverified error:", err.message);
     res.status(500).json({ message: "Failed to delete unverified users" });
   }
-});
-
-// NOTE: Catch-all route to serve React app for client-side routing
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 });
 
 // IMPORTANT: Initialize database and start server
