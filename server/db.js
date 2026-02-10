@@ -2,8 +2,10 @@ const { Pool } = require("pg");
 require("dotenv").config();
 
 // IMPORTANT: Create a connection pool to PostgreSQL database
+// NOTE: In production (Render), SSL is required for external DB connections
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
 });
 
 // NOTE: This function initializes the database schema

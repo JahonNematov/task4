@@ -13,7 +13,11 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // IMPORTANT: Middleware setup
-app.use(cors());
+// NOTE: Allow requests from Netlify frontend in production
+app.use(cors({
+  origin: process.env.CLIENT_URL || "*",
+  credentials: true,
+}));
 app.use(express.json());
 
 // NOTE: Serve static React build files in production

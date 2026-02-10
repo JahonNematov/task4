@@ -1,8 +1,10 @@
 import axios from "axios";
 
 // IMPORTANT: Create axios instance with base URL for API requests
+// NOTE: In production, REACT_APP_API_URL points to the Render backend
+// In development, proxy in package.json handles it
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: process.env.REACT_APP_API_URL || "/api",
 });
 
 // NOTE: Interceptor to attach JWT token to every request automatically
